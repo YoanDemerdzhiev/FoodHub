@@ -1,0 +1,20 @@
+name: Fitness Sprint 1 C# smoke checks
+
+on:
+  push:
+    branches: [feature/fitness-sprint1]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Build fitness domain library
+        run: dotnet build FoodDeliveryHub/FoodHub.Fitness/FoodHub.Fitness.csproj -c Release
+      - name: Run fitness smoke checks
+        run: dotnet run --project FoodDeliveryHub/FoodHub.Fitness.SmokeTests/FoodHub.Fitness.SmokeTests.csproj -c Release
